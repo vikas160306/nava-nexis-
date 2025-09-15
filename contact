@@ -1,0 +1,364 @@
+import React, { useState } from "react";
+import { Contact } from "@/entities/Contact";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { 
+  MessageCircle, 
+  Phone, 
+  Mail, 
+  MapPin, 
+  Clock,
+  Send,
+  CheckCircle 
+} from "lucide-react";
+import { motion } from "framer-motion";
+
+export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service_interest: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const whatsappUrl1 = "https://wa.me/916281883409";
+  const whatsappUrl2 = "https://wa.me/918341848659";
+
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await Contact.create(formData);
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        service_interest: "",
+        message: ""
+      });
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+
+    setIsSubmitting(false);
+  };
+
+  const contactInfo = [
+    {
+      icon: MessageCircle,
+      title: "WhatsApp",
+      details: ["+91 6281883409", "+91 8341848659"],
+      action: "Chat Now",
+      link: whatsappUrl1,
+      color: "text-green-600"
+    },
+    {
+      icon: Phone,
+      title: "Phone",
+      details: ["+91 6281883409", "+91 8341848659"],
+      action: "Call Now",
+      link: "tel:+916281883409",
+      color: "text-blue-600"
+    },
+    {
+      icon: Mail,
+      title: "Email",
+      details: ["navanexis@gmail.com"],
+      action: "Send Email",
+      link: "mailto:navanexis@gmail.com",
+      color: "text-purple-600"
+    },
+    {
+      icon: Clock,
+      title: "Business Hours",
+      details: ["Mon - Sat: 9AM - 7PM", "Sun: 10AM - 4PM"],
+      action: null,
+      link: null,
+      color: "text-gray-600"
+    }
+  ];
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="max-w-md mx-auto text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-green-50 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6"
+          >
+            <CheckCircle className="w-10 h-10 text-green-600" />
+          </motion.div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">
+            Thank You!
+          </h1>
+          <p className="text-gray-600 mb-8">
+            We've received your message and will get back to you within 24 hours. 
+            For immediate assistance, feel free to contact us on WhatsApp.
+          </p>
+          <div className="space-y-3">
+            <a
+              href={whatsappUrl1}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Button className="w-full bg-green-600 hover:bg-green-700">
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Continue on WhatsApp
+              </Button>
+            </a>
+            <Button 
+              variant="outline" 
+              className="w-full"
+              onClick={() => setIsSubmitted(false)}
+            >
+              Send Another Message
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-white">
+      {/* Hero Section */}
+      <section className="py-20 lg:py-32 bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6"
+            >
+              Contact{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                Us
+              </span>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-xl lg:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
+            >
+              Let's discuss your project and bring your vision to life
+            </motion.p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-5 gap-12">
+            {/* Contact Information */}
+            <div className="lg:col-span-2 space-y-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">Get in Touch</h2>
+                <p className="text-gray-600 mb-8">
+                  Ready to start your project? We're here to help you every step of the way. 
+                  Choose your preferred way to connect with us.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {contactInfo.map((info, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    <Card className="border border-gray-100 hover:border-blue-200 transition-colors">
+                      <CardContent className="p-6">
+                        <div className="flex items-start space-x-4">
+                          <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                            info.color === 'text-green-600' ? 'bg-green-50' :
+                            info.color === 'text-blue-600' ? 'bg-blue-50' :
+                            info.color === 'text-purple-600' ? 'bg-purple-50' : 'bg-gray-50'
+                          }`}>
+                            <info.icon className={`w-5 h-5 ${info.color}`} />
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-gray-900 mb-2">{info.title}</h3>
+                            {info.details.map((detail, idx) => (
+                              <p key={idx} className="text-gray-600 text-sm">{detail}</p>
+                            ))}
+                            {info.action && info.link && (
+                              <a
+                                href={info.link}
+                                target={info.link.startsWith('http') ? '_blank' : undefined}
+                                rel={info.link.startsWith('http') ? 'noopener noreferrer' : undefined}
+                                className={`inline-flex items-center mt-2 text-sm font-medium ${info.color} hover:opacity-70 transition-opacity`}
+                              >
+                                {info.action}
+                              </a>
+                            )}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Quick WhatsApp CTAs */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 }}
+                className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-xl"
+              >
+                <h3 className="font-semibold text-gray-900 mb-3">Prefer Instant Chat?</h3>
+                <p className="text-gray-600 text-sm mb-4">
+                  Connect with us directly on WhatsApp for immediate assistance.
+                </p>
+                <div className="flex gap-3">
+                  <a href={whatsappUrl1} target="_blank" rel="noopener noreferrer">
+                    <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      Agent 1
+                    </Button>
+                  </a>
+                  <a href={whatsappUrl2} target="_blank" rel="noopener noreferrer">
+                    <Button size="sm" variant="outline" className="border-green-600 text-green-600 hover:bg-green-600 hover:text-white">
+                      <MessageCircle className="w-4 h-4 mr-1" />
+                      Agent 2
+                    </Button>
+                  </a>
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Contact Form */}
+            <div className="lg:col-span-3">
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+              >
+                <Card className="border-0 shadow-2xl">
+                  <CardHeader className="pb-6">
+                    <h3 className="text-2xl font-bold text-gray-900">Send us a Message</h3>
+                    <p className="text-gray-600">
+                      Fill out the form below and we'll get back to you within 24 hours.
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="name">Full Name *</Label>
+                          <Input
+                            id="name"
+                            value={formData.name}
+                            onChange={(e) => handleInputChange('name', e.target.value)}
+                            placeholder="Your full name"
+                            required
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="email">Email Address *</Label>
+                          <Input
+                            id="email"
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => handleInputChange('email', e.target.value)}
+                            placeholder="your@email.com"
+                            required
+                          />
+                        </div>
+                      </div>
+
+                      <div className="grid md:grid-cols-2 gap-6">
+                        <div className="space-y-2">
+                          <Label htmlFor="phone">Phone Number</Label>
+                          <Input
+                            id="phone"
+                            value={formData.phone}
+                            onChange={(e) => handleInputChange('phone', e.target.value)}
+                            placeholder="+91 Your phone number"
+                          />
+                        </div>
+                        <div className="space-y-2">
+                          <Label htmlFor="service">Service Interest</Label>
+                          <Select value={formData.service_interest} onValueChange={(value) => handleInputChange('service_interest', value)}>
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select service type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="publishing">Publishing Services</SelectItem>
+                              <SelectItem value="creative">Creative Services</SelectItem>
+                              <SelectItem value="both">Both Publishing & Creative</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="message">Message *</Label>
+                        <Textarea
+                          id="message"
+                          value={formData.message}
+                          onChange={(e) => handleInputChange('message', e.target.value)}
+                          placeholder="Tell us about your project, requirements, timeline, or any questions you have..."
+                          className="h-32"
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        type="submit"
+                        size="lg"
+                        disabled={isSubmitting}
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                      >
+                        {isSubmitting ? (
+                          <>
+                            <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                            Sending...
+                          </>
+                        ) : (
+                          <>
+                            <Send className="w-4 h-4 mr-2" />
+                            Send Message
+                          </>
+                        )}
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
