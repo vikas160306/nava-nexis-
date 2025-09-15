@@ -1,0 +1,55 @@
+  "name": "Contact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Contact person's name"
+    },
+    "email": {
+      "type": "string",
+      "description": "Contact email"
+    },
+    "phone": {
+      "type": "string",
+      "description": "Contact phone number"
+    },
+    "message": {
+      "type": "string",
+      "description": "Contact message"
+    },
+    "service_interest": {
+      "type": "string",
+      "enum": [
+        "publishing",
+        "creative",
+        "both",
+        "other"
+      ],
+      "description": "Service they're interested in"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "new",
+        "contacted",
+        "converted",
+        "closed"
+      ],
+      "default": "new",
+      "description": "Contact status"
+    }
+  },
+  "required": [
+    "name",
+    "email",
+    "message"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "write": {}
+  }
+}
