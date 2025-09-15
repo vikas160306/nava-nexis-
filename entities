@@ -1,0 +1,13 @@
+// In @/entities/User.js
+
+export const User = {
+  me: async () => {
+    // Simulate a logged-in admin user
+    return {
+      id: 1,
+      email: "navanexis@gmail.com",
+      name: "Admin User",
+      role: "admin",
+    };
+  },
+};
