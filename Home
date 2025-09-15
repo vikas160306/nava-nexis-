@@ -1,0 +1,89 @@
+import React, { useState, useEffect } from "react";
+import { User } from "@/entities/User";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Shield, MessageSquare, Briefcase } from "lucide-react";
+import ContactSubmissions from "../components/admin/ContactSubmissions";
+import ServiceManager from "../components/admin/ServiceManager";
+
+export default function AdminDashboard() {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const currentUser = await User.me();
+        setUser(currentUser);
+        if (currentUser.role === 'admin') {
+          setIsAdmin(true);
+        }
+      } catch (error) {
+        // Not logged in
+      }
+      setLoading(false);
+    };
+    checkUser();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[calc(100vh-200px)]">
+        <p className="text-gray-600">Verifying access...</p>
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[calc(100vh-200px)] text-center px-4">
+        <Shield className="w-16 h-16 text-red-500 mb-4" />
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">Access Denied</h1>
+        <p className="text-gray-600 max-w-md">
+          You do not have the necessary permissions to view this page. Please contact the site administrator if you believe this is an error.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        <Card className="mb-8 border-0 shadow-sm">
+          <CardHeader>
+            <div className="flex items-center space-x-3">
+              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                <Shield className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-gray-900">Admin Dashboard</CardTitle>
+                <p className="text-gray-600">Manage your website content and submissions.</p>
+              </div>
+            </div>
+          </CardHeader>
+        </Card>
+
+        <Tabs defaultValue="contacts" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-lg mx-auto mb-8">
+            <TabsTrigger value="contacts">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Contact Submissions
+            </TabsTrigger>
+            <TabsTrigger value="services">
+              <Briefcase className="w-4 h-4 mr-2" />
+              Manage Services
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="contacts">
+            <ContactSubmissions />
+          </TabsContent>
+          <TabsContent value="services">
+            <ServiceManager />
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
+}
