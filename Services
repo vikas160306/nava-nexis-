@@ -1,0 +1,51 @@
+{
+  "name": "Service",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Service name"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "publishing",
+        "creative"
+      ],
+      "description": "Service category"
+    },
+    "description": {
+      "type": "string",
+      "description": "Service description"
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Service features list"
+    },
+    "icon": {
+      "type": "string",
+      "description": "Lucide icon name for the service"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "Whether service is active"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "description"
+  ],
+  "rls": {
+    "read": {},
+    "write": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
