@@ -1,0 +1,181 @@
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { 
+  BookOpen, 
+  Edit3, 
+  FileText, 
+  Globe, 
+  Palette, 
+  Camera, 
+  Layers,
+  ArrowRight
+} from "lucide-react";
+import { motion } from "framer-motion";
+
+const publishingServices = [
+  {
+    icon: BookOpen,
+    title: "Book Formatting",
+    description: "Professional interior and exterior book formatting for print and digital"
+  },
+  {
+    icon: Edit3,
+    title: "Editing Services",
+    description: "Comprehensive editing from copy editing to developmental editing"
+  },
+  {
+    icon: FileText,
+    title: "Ghostwriting",
+    description: "Expert ghostwriters to bring your story ideas to life"
+  },
+  {
+    icon: Globe,
+    title: "ISBN & Distribution",
+    description: "Complete publishing setup with global distribution channels"
+  }
+];
+
+const creativeServices = [
+  {
+    icon: Palette,
+    title: "Cover Design",
+    description: "Eye-catching book covers and marketing materials"
+  },
+  {
+    icon: Layers,
+    title: "Graphic Design",
+    description: "Professional graphics for marketing and branding"
+  },
+  {
+    icon: Camera,
+    title: "Video Editing",
+    description: "High-quality video content for promotions and marketing"
+  },
+  {
+    icon: Layers,
+    title: "Branding Solutions",
+    description: "Complete brand identity and logo design services"
+  }
+];
+
+export default function ServicesPreview() {
+  const whatsappUrl = "https://wa.me/916281883409";
+
+  return (
+    <section className="py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4"
+          >
+            Complete Publishing & Creative Solutions
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-xl text-gray-600 max-w-3xl mx-auto"
+          >
+            From manuscript to market, from concept to creation - we provide everything you need 
+            to succeed in today's competitive landscape.
+          </motion.p>
+        </div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Publishing Services */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="space-y-6"
+          >
+            <div className="flex items-center space-x-3 mb-8">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                <BookOpen className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">Publishing Services</h3>
+                <p className="text-gray-600">Everything you need to publish your book</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {publishingServices.map((service, index) => (
+                <Card key={index} className="border border-gray-100 hover:border-blue-200 transition-all duration-300 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <service.icon className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-2">{service.title}</h4>
+                        <p className="text-gray-600 text-sm">{service.description}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <Button className="w-full bg-blue-600 hover:bg-blue-700 mt-6">
+                Get Publishing Support
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </a>
+          </motion.div>
+
+          {/* Creative Services */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="flex items-center space-x-3 mb-8">
+              <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                <Palette className="w-6 h-6 text-purple-600" />
+              </div>
+              <div>
+                <h3 className="text-2xl font-bold text-gray-900">Creative Solutions</h3>
+                <p className="text-gray-600">Design and branding that stands out</p>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {creativeServices.map((service, index) => (
+                <Card key={index} className="border border-gray-100 hover:border-purple-200 transition-all duration-300 hover:shadow-lg">
+                  <CardContent className="p-6">
+                    <div className="flex items-start space-x-4">
+                      <div className="w-10 h-10 bg-purple-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <service.icon className="w-5 h-5 text-purple-600" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-gray-900 mb-2">{service.title}</h4>
+                        <p className="text-gray-600 text-sm">{service.description}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+              <Button className="w-full bg-purple-600 hover:bg-purple-700 mt-6">
+                Explore Creative Services
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </a>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
